@@ -198,5 +198,132 @@ f(x) =   1       x = 2
 ```
 - P:
 ```
+public int JumpFloor(int target) {
+        if(target<=0){
+            return 0;
+        }
+        if(target == 1){
+            return 1;
+        } 
+        if(target == 2){
+            return 2;
+        } 
+        int count = 0;
+        int resOne = 1;
+        int resTwo = 2;
+        for(int i = 2; i < target;i++){
+            count = resOne + resTwo;
+            resOne = resTwo;
+            resTwo = count;
+        }
+        return count;
+    }
 ```
-- T: 
+> 一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。
+- O:
+```
+	public int JumpFloorII(int target) {
+        if(target<=0){
+            return 0;
+        }
+        if(target == 1){
+            return 1;
+        } 
+        if(target == 2){
+            return 2;
+        } 
+        int count = 2;
+        for(int i = 2;i<target;i++){
+            count = 2* count;
+        }
+        return count;
+    }
+```
+> 我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？
+- O:
+```
+ public int RectCover(int target) {
+        if(target == 0){
+            return 0;
+        }
+        if(target == 1){
+            return 1;
+        }
+        if(target == 2){
+            return 2;
+        }
+        return RectCover(target-1)+RectCover(target-2);
+    }
+```
+> 输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。
+- O:
+```
+
+```
+- T:
+```
+&按位与的运算规则是将两边的数转换为二进制位，然后运算最终值，运算规则即(两个为真才为真)1&1=1 , 1&0=0 , 0&1=0 , 0&0=0
+```
+><font color="#dd0000">输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</font> 
+- O:
+
+> 给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。保证base和exponent不同时为0
+
+- O:
+```
+public double Power(double base, int exponent) {
+        return Math.pow(base, exponent);
+    }
+```
+- P:
+```
+	public double Power(double base, int exponent) {
+        int temp = exponent>0? exponent : -exponent;
+        double result = 1;
+        for(int i = 0 ;i < temp; i++){
+            result *= base;
+        }
+        return exponent > 0 ?  result : 1 / result;
+    }
+```
+> 输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。
+- O:
+```
+	public void reOrderArray(int [] array) {
+        for(int i = 0;i< array.length;i++){
+            for( int j = 0;j<array.length-i-1;j++ ){
+                if(array[j]%2==0&&array[j+1]%2==1){
+                    int temp = array[j];
+                    array[j] = array[j+1];
+                    array[j+1] = temp;
+                }
+            }
+        }
+    }
+```
+> 输入一个链表，输出该链表中倒数第k个结点。
+- O:
+```
+	public ListNode FindKthToTail(ListNode head, int k) {
+        ListNode pre = head;
+        ListNode post = head;
+        int prePos = 0;
+        int postPos = 0;
+        while (post != null) {
+            post = post.next;
+            postPos++;
+            if (postPos - prePos > k) {
+                prePos++;
+                pre = pre.next;
+            }
+        }
+        return postPos < k ? null : pre;
+    }
+```
+> 输入一个链表，反转链表后，输出新链表的表头。
+- O:
+```
+```
+### 贪心算法总结：
+总是在对问题求解时，作出看起来是当前是最好的选择。与之相对的是动态规划。
+只进不退，贪心。能退能进，线性规划。
