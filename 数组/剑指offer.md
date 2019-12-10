@@ -324,6 +324,208 @@ public double Power(double base, int exponent) {
 - O:
 ```
 ```
+> 输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。
+- O:
+```
+
+        ListNode head=new ListNode(-1);
+        head.next=null;
+        ListNode root=head;
+        while(list1!=null&&list2!=null){
+            if(list1.val<list2.val){
+                head.next=list1;
+                head=list1;
+                list1=list1.next;
+            }else{
+                head.next=list2;
+                head=list2;
+                list2=list2.next;
+            }
+        }
+        //把未结束的链表连接到合并后的链表尾部
+        if(list1!=null){
+            head.next=list1;
+        }
+        if(list2!=null){
+            head.next=list2;
+        }
+        return root.next;
+```
+> 输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）
+- O:
+```
+	public boolean isSubTree(TreeNode root1, TreeNode root2) {
+        if (root2 == null) { // root2 为空时，说明已经比较完毕
+            return true;
+        }
+        if (root1 == null) { // root1 为空时，说明root1长度不够
+            return false;
+        }
+        if (root1.val == root2.val) {
+            return isSubTree(root1.left, root2.left) && isSubTree(root1.right, root2.right);
+        } else {
+            return false;
+        }
+    }
+
+    public boolean HasSubtree(TreeNode root1, TreeNode root2) {
+        if (root1 == null || root2 == null) {
+            return false;
+        }
+        return isSubTree(root1, root2) || HasSubtree(root1.left, root2) || HasSubtree(root1.right, root2);
+    }
+
+```
+> 操作给定的二叉树，将其变换为源二叉树的镜像。
+```
+二叉树的镜像定义：源二叉树 
+    	    8
+    	   /  \
+    	  6   10
+    	 / \  / \
+    	5  7 9 11
+    	镜像二叉树
+    	    8
+    	   /  \
+    	  10   6
+    	 / \  / \
+    	11 9 7  5
+```
+- O:
+```
+	public void Mirror(TreeNode root) {
+         if (root!=null){
+            TreeNode temp = root.left;
+            root.left = root.right;
+            root.right = temp;
+            Mirror(root.left);
+            Mirror(root.right);
+        }
+    }
+```
+- P1(非递归):
+```
+	public void Mirror(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode treeNode = stack.pop();
+            if (treeNode.left != null || treeNode.right != null) {
+                TreeNode temp = treeNode.left;
+                treeNode.left = treeNode.right;
+                treeNode.right = temp;
+            }
+            if (treeNode.left != null) {
+                stack.push(treeNode.left);
+            }
+            if (treeNode.right != null) {
+                stack.push(treeNode.right);
+            }
+        }
+    }
+```
+> 输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.
+
+- O:
+```
+
+```
+> 定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。
+- O:
+```
+
+```
+> 输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）
+- O: 
+```
+public boolean IsPopOrder(int[] pushA, int[] popA) {
+        if (pushA.length == 0 || popA.length == 0) {
+            return false;
+        }
+        Stack<Integer> stack = new Stack<Integer>();
+        int popIndex = 0;
+        for (int i = 0; i < pushA.length; i++) {
+            stack.push(pushA[i]);
+            while (!stack.empty() && stack.peek() == popA[popIndex]) {
+                stack.pop();
+                popIndex++;
+            }
+        }
+        return stack.empty();
+    }
+```
+> 从上往下打印出二叉树的每个节点，同层节点从左至右打印。
+- O:
+```
+public ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
+        ArrayList<Integer> arrayList = new ArrayList<Integer>();
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        if (root == null) {
+            return arrayList;
+        }
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            TreeNode treeNode = queue.poll();
+            arrayList.add(treeNode.val);
+
+            if (treeNode.left != null) {
+                queue.add(treeNode.left);
+            }
+            if (treeNode.right != null) {
+                queue.add(treeNode.right);
+            }
+        }
+        return arrayList;
+    }
+```
+> 输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
+- O:
+```
+	public boolean VerifySquenceOfBST(int[] sequence) {
+        if (sequence.length == 0) {
+            return false;
+        }
+        return isBst(sequence, 0, sequence.length - 1);
+    }
+
+    public boolean isBst(int[] sequence, int start, int end) {
+        //终止条件
+        if (start >= end) {
+            return true;
+        }
+
+        // 寻找i的合适位置(从右边开始找)
+        int j = end;
+        while (j > start && sequence[j - 1] > sequence[end]) {
+            --j;
+        }
+
+        // 判断是否都符合基本条件
+        for (int i = j - 1; i >= start; i--) {
+            if (sequence[i] > sequence[end]) {
+                return false;
+            }
+        }
+
+        return isBst(sequence, start, j - 1) && isBst(sequence, j, end - 1);
+    }
+```
+> 输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)
+
+- O:
+```
+
+```
+
+> 输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）
+- O:
+```
+
+```
+
 ### 贪心算法总结：
 总是在对问题求解时，作出看起来是当前是最好的选择。与之相对的是动态规划。
 只进不退，贪心。能退能进，线性规划。
