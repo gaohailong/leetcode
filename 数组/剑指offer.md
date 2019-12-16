@@ -517,6 +517,20 @@ public ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
 
 - O:
 ```
+ public ArrayList<ArrayList<Integer>> FindPath(TreeNode root, int target) {
+        if (root == null) {
+            return listAll;
+        }
+        list.add(root.val);
+        target -= root.val;
+        if (target == 0 && root.left == null && root.right == null) {
+            listAll.add(new ArrayList<Integer>(list));
+        }
+        FindPath(root.left, target);
+        FindPath(root.right, target);
+        list.remove(list.size() - 1); // 如果走到这，说明这个条件不符合，剩下的没必要往下找了。直接剪枝。
+        return listAll;
+    }
 
 ```
 
@@ -525,6 +539,71 @@ public ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
 ```
 
 ```
+><font color="#dd0000">空了几道题</font> 
+
+> 数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。如果不存在则输出0。
+- O:
+```
+	public int MoreThanHalfNum_Solution(int [] array) {
+        if(array.length==1){
+            return array[0];
+        }
+        int len = array.length / 2;
+        int[] counts = new int[array.length]; 
+        for (int i = 0; i < array.length; i++) {
+            int value = counts[array[i]];
+            value++;
+            if (value > len) {
+                return array[i];
+            }
+            counts[array[i]]++;
+        }
+        return 0;
+    }
+```
+- P1:
+ 通过先排序，排序之后如果数据大于一半，那么排序之后除以2，中间的数据肯定是这个数，不然他就无法大于一半。
+```
+ Arrays.sort(array);
+        int len = array.length / 2;
+        int i = array[len];
+        int count = 0;
+        for (int temp : array) {
+            if (temp == i) {
+                count++;
+            }
+        }
+        if (count > len) {
+            return i;
+        }
+        return 0;
+```
+
+- P2:（未求解）
+
+```
+```
+> 输入n个整数，找出其中最小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4,。
+- O:
+```
+	public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        if(input.length <k){
+            return list;
+        }
+        Arrays.sort(input);
+        for(int i = 0;i< k;i++){
+            list.add(input[i]);
+        }
+        return list;
+    }
+```
+> HZ偶尔会拿些专业问题来忽悠那些非计算机专业的同学。今天测试组开完会后,他又发话了:在古老的一维模式识别中,常常需要计算连续子向量的最大和,当向量全为正数的时候,问题很好解决。但是,如果向量中包含负数,是否应该包含某个负数,并期望旁边的正数会弥补它呢？例如:{6,-3,-2,7,-15,1,2,2},连续子向量的最大和为8(从第0个开始,到第3个为止)。给一个数组，返回它的最大连续子序列的和，你会不会被他忽悠住？(子向量的长度至少是1)
+- O:
+```
+
+```
+
 
 ### 贪心算法总结：
 总是在对问题求解时，作出看起来是当前是最好的选择。与之相对的是动态规划。
