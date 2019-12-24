@@ -2,6 +2,7 @@
 - P:改进
 - T:思考
 ---
+###  二维数组中的查找
 >  在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
 - O:
 ```
@@ -55,6 +56,7 @@
     }
 ```
 ---
+### 替换空格
 >输入一个链表，按链表从尾到头的顺序返回一个ArrayList。
 - P1(递归):
 ```
@@ -69,6 +71,7 @@
     }
 ```
 ---
+### 从尾到头打印链表
 >输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。
 - O:
 ```
@@ -88,6 +91,7 @@
     }
 ```
 ---
+### 重建二叉树
 > 用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型。
 - O:
 ```
@@ -109,6 +113,7 @@ Stack<Integer> stack1 = new Stack<Integer>();
     }
 ```
 ---
+### 用两个栈实现队列
 > 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。
 输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。
 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。
@@ -144,6 +149,9 @@ public int minNumberInRotateArray(int[] array) {
 正数：r = 20 >> 2;结果：r = 5
 
 负数：r = -20 >> 2;结果：r = -5
+
+---
+### 斐波那契数列
 > 大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0）。
 n<=39
 - O:
@@ -1120,7 +1128,44 @@ public void FindNumsAppearOnce(int[] array, int num1[], int num2[]) {
 > 汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的运算结果。对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”。是不是很简单？OK，搞定它！
 - O:
 ```
+public String LeftRotateString(String str, int n) {
+        if (str == null|| str.length() == 0){
+            return "";
+        }
+        if(n>str.length()){
+            return "";
+        }
+        String left = str.substring(0,n);
+        String right = str.substring(n,str.length());
+        String fin = right +left;
 
+        return fin;
+    }
+```
+ - P1:
+```
+	public String LeftRotateString(String str, int n) {
+        char[] chars = str.toCharArray();
+        if(str == null || str.length() == 0)
+            return "";
+        if(n > str.length())
+            n = n % str.length();
+
+        reverse(chars, 0, n - 1);
+        reverse(chars, n, chars.length - 1);
+        reverse(chars, 0, chars.length - 1);
+        return new String(chars);
+    }
+
+    public void reverse(char[] chars, int start, int end) {
+        while (start < end) {
+            char temp = chars[start];
+            chars[start] = chars[end];
+            chars[end] = temp;
+            start++;
+            end--;
+        }
+    }
 ```
 > 牛客最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。例如，“student. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？
 - O :
@@ -1144,8 +1189,55 @@ public void FindNumsAppearOnce(int[] array, int num1[], int num2[]) {
 > LL今天心情特别好,因为他去买了一副扑克牌,发现里面居然有2个大王,2个小王(一副牌原本是54张^_^)...他随机从中抽出了5张牌,想测测自己的手气,看看能不能抽到顺子,如果抽到的话,他决定去买体育彩票,嘿嘿！！“红心A,黑桃3,小王,大王,方片5”,“Oh My God!”不是顺子.....LL不高兴了,他想了想,决定大\小 王可以看成任何数字,并且A看作1,J为11,Q为12,K为13。上面的5张牌就可以变成“1,2,3,4,5”(大小王分别看作2和4),“So Lucky!”。LL决定去买体育彩票啦。 现在,要求你使用这幅牌模拟上面的过程,然后告诉我们LL的运气如何， 如果牌能组成顺子就输出true，否则就输出false。为了方便起见,你可以认为大小王是0。
 - O:
 ```
-
+public boolean isContinuous(int [] numbers) {
+        if(numbers.length == 0){
+            return false;
+        }
+        int[] temp = new int[14];
+        int max = -1;
+        int min = 14;
+        for (int i = 0; i < numbers.length; i++) {
+            temp[numbers[i]]++;
+            if(numbers[i] == 0){
+                continue;
+            }
+            if (temp[numbers[i]] > 1) { // 重复肯定不是
+                return false;
+            }
+            if (numbers[i] > max){
+                max = numbers[i];
+            }
+            if (numbers[i] < min){
+                min = numbers[i];
+            }
+        }
+        if(max-min<5){
+            return true;
+        }else {
+            return false;
+        }
+    }
 ```
+> 每年六一儿童节,牛客都会准备一些小礼物去看望孤儿院的小朋友,今年亦是如此。HF作为牛客的资深元老,自然也准备了一些小游戏。其中,有个游戏是这样的:首先,让小朋友们围成一个大圈。然后,他随机指定一个数m,让编号为0的小朋友开始报数。每次喊到m-1的那个小朋友要出列唱首歌,然后可以在礼品箱中任意的挑选礼物,并且不再回到圈中,从他的下一个小朋友开始,继续0...m-1报数....这样下去....直到剩下最后一个小朋友,可以不用表演,并且拿到牛客名贵的“名侦探柯南”典藏版(名额有限哦!!^_^)。请你试着想下,哪个小朋友会得到这份礼品呢？(注：小朋友的编号是从0到n-1)
+ - O:
+```
+	public int LastRemaining_Solution(int n, int m) {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        if (n == 0 || m == 0) {
+            return -1;
+        }
+        int curr = 0;
+        for (int i = 0; i < n; i++) {
+            linkedList.add(i);
+        }
+        while (linkedList.size() > 1) {
+            curr = (curr + m - 1) % (linkedList.size());
+            linkedList.remove(curr);
+        }
+        return linkedList.get(0);
+    }
+```
+---
 >求1+2+3+...+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。 
 - O:
 ```
@@ -1159,7 +1251,76 @@ public void FindNumsAppearOnce(int[] array, int num1[], int num2[]) {
 > 写一个函数，求两个整数之和，要求在函数体内不得使用+、-、*、/四则运算符号。
 - O:
 ```
+ 	public int Add(int num1,int num2) {
+        while (num2!=0) {
+            int temp = num1^num2;
+            num2 = (num1&num2)<<1;
+            num1 = temp;
+        }
+        return num1;
+    }
+```
+- T:
+```
+&（按位与）
+&按位与的运算规则是将两边的数转换为二进制位，然后运算最终值，运算规则即(两个为真才为真)1&1=1 , 1&0=0 , 0&1=0 , 0&0=0
+7的二进制位是0000 0111，那就是111 & 101等于101，也就是0000 0101，故值为5
 
+|（按位或）
+|按位或和&按位与计算方式都是转换二进制再计算，不同的是运算规则(一个为真即为真)1|0 = 1 , 1|1 = 1 , 0|0 = 0 , 0|1 = 1
+6的二进制位0000 0110 , 2的二进制位0000 0010 , 110|010为110，最终值0000 0110，故6|2等于6
+
+^（异或运算符）
+^异或运算符顾名思义，异就是不同，其运算规则为1^0 = 1 , 1^1 = 0 , 0^1 = 1 , 0^0 = 0
+5的二进制位是0000 0101 ， 9的二进制位是0000 1001，也就是0101 ^ 1001,结果为1100 , 00001100的十进制位是12
+
+<<（左移运算符）
+5<<2的意思为5的二进制位往左挪两位，右边补0，5的二进制位是0000 0101 ， 就是把有效值101往左挪两位就是0001 0100 ，正数左边第一位补0，负数补1，等于乘于2的n次方，十进制位是20
+
+>>（右移运算符）
+凡位运算符都是把值先转换成二进制再进行后续的处理，5的二进制位是0000 0101，右移两位就是把101左移后为0000 0001，正数左边第一位补0，负数补1，等于除于2的n次方，结果为1
+
+~（取反运算符）
+取反就是1为0,0为1,5的二进制位是0000 0101，取反后为1111 1010，值为-6
+
+>>>（无符号右移运算符）
+无符号右移运算符和右移运算符的主要区别在于负数的计算，因为无符号右移是高位补0，移多少位补多少个0。
+15的二进制位是0000 1111 ， 右移2位0000 0011，结果为3
+
+```
+---
+> 将一个字符串转换成一个整数，要求不能使用字符串转换整数的库函数。 数值为0或者字符串不是一个合法的数值则返回0
+- O:
+```
+	public static int StrToInt(String str) {
+        int length = str.length();
+        char[] strs = str.toCharArray();
+        int isNeg = 1;
+        int index = 0;
+        int digit = 0;
+        int overValue = 0;
+        int value = 0;
+        if (str.length() == 0) {
+            return 0;
+        }
+        if (strs[0] == '-') {
+            isNeg = -1;
+            index = 1;
+        } else if (strs[0] == '+') {
+            index = 1;
+        }
+        for (; index < length; index++) {
+            digit = strs[index] - '0';
+            overValue = isNeg * value - Integer.MAX_VALUE / 10 + ((((isNeg + 1)) / 2 + digit > 8) ? 1 : 0);
+            if (digit < 0 || digit > 9) {
+                return 0;
+            } else if (overValue > 0) {
+                return 0;
+            }
+            value = value * 10 + isNeg * digit;
+        }
+        return value;
+    }
 ```
 > 在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是第一个重复的数字2。
 - O:
@@ -1204,7 +1365,50 @@ int length = A.length;
         }
         return B;
 ```
+---
+### 正则表达式匹配
 > 请实现一个函数用来匹配包括'.'和'*'的正则表达式。模式中的字符'.'表示任意一个字符，而'*'表示它前面的字符可以出现任意次（包含0次）。 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串"aaa"与模式"a.a"和"ab*ac*a"匹配，但是与"aa.a"和"ab*a"均不匹配
+- O:
+```
+public boolean matchStr(char[] str, int i, char[] pattern, int j) {
+ 
+     // 边界
+     if (i == str.length && j == pattern.length) { // 字符串和模式串都为空
+         return true;
+     } else if (j == pattern.length) { // 模式串为空
+         return false;
+     }
+ 
+     boolean flag = false;
+     boolean next = (j + 1 < pattern.length && pattern[j + 1] == '*'); // 模式串下一个字符是'*'
+     if (next) {
+         if (i < str.length && (pattern[j] == '.' || str[i] == pattern[j])) { // 要保证i<str.length，否则越界
+             return matchStr(str, i, pattern, j + 2) || matchStr(str, i + 1, pattern, j);
+         } else {
+             return matchStr(str, i, pattern, j + 2);
+         }
+     } else {
+         if (i < str.length && (pattern[j] == '.' || str[i] == pattern[j])) {
+             return matchStr(str, i + 1, pattern, j + 1);
+         } else {
+             return false;
+         }
+     }
+ }
+ 
+ public boolean match(char[] str, char[] pattern) {
+     return matchStr(str, 0, pattern, 0);
+ }
+```
+---
+### 表示数值的字符串
+> 请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串"+100","5e2","-123","3.1416"和"-1E-16"都表示数值。 但是"12e","1a3.14","1.2.3","+-5"和"12e+4.3"都不是。
+- O:
+```
+
+```
+---
+不知道这个是哪个题
 - O:
 ```
  int[] count = new int[256];
@@ -1230,6 +1434,8 @@ int length = A.length;
         return ch;
     }
 ```
+---
+### 链表中环的入口结点
 > 给一个链表，若其中包含环，请找出该链表的环的入口结点，否则，输出null。
 - O:
 ```
@@ -1258,11 +1464,60 @@ public ListNode EntryNodeOfLoop(ListNode pHead) {
 ```
 当两个点相遇时，fast肯定是low的两倍。这样第二次low从新开始时候，fast依然从相遇点出发，这样他们再次相交时候就是入口点。
 ```
+--- 
+### 删除链表中重复的结点
+> 在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。 例如，链表1->2->3->3->4->4->5 处理后为 1->2->5
+- O:
+```
+	public ListNode deleteDuplication(ListNode pHead) {
+        if (pHead == null || pHead.next == null) {
+            return pHead;
+        }
+        ListNode Head = new ListNode(0);
+        Head.next = pHead;
+        ListNode pre = Head;
+        ListNode last = Head.next;
+        while (last != null) {
+            if (last.next != null && last.val == last.next.val) {
+                // 找到最后的一个相同节点
+                while (last.next != null && last.val == last.next.val) {
+                    last = last.next;
+                }
+                pre.next = last.next;
+                last = last.next;
+            } else {
+                pre = pre.next;
+                last = last.next;
+            }
+        }
+        return Head.next;
+    }
+```
+---
 > 给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
 - O:
 ```
-
+  public TreeLinkNode GetNext(TreeLinkNode pNode){
+        if(pNode==null){
+            return null;
+        }
+        if(pNode.right!=null){
+            pNode = pNode.right;
+            while(pNode.left != null){
+                pNode = pNode.left;
+            }
+            return pNode;
+        }
+        while(pNode.next!=null){
+            if(pNode.next.left==pNode){
+                return pNode.next;
+            }
+            pNode = pNode.next;
+        }
+        return null;
+    }
 ```
+---
 > 请实现一个函数，用来判断一颗二叉树是不是对称的。注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。
 - O:
 ```
@@ -1512,7 +1767,112 @@ TreeNode KthNode(TreeNode pRoot, int k){
 > 请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一个格子开始，每一步可以在矩阵中向左，向右，向上，向下移动一个格子。如果一条路径经过了矩阵中的某一个格子，则该路径不能再进入该格子。 例如 a b c e s f c s a d e e 矩阵中包含一条字符串"bcced"的路径，但是矩阵中不包含"abcb"路径，因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入该格子。
 - O:
 ```
+	public boolean hasPath(char[] matrix, int rows, int cols, char[] str) {
+        boolean[] flag = new boolean[matrix.length]; //  定义标志数组（是否走过这个数据）
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (find(matrix, i, j, rows, cols, str, flag, 0)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
+    // matrix 初始矩阵，索引矩阵i，索引矩阵j，矩阵行数，矩阵列数，待判断的字符串，是否走过，字符串索引
+    public boolean find(char[] matrix, int i, int j, int rows, int cols, char[] str, boolean[] flag, int k) {
+        // 计算当前索引在一维数组中的位置
+        int index = i * cols + j;
+        //终止条件
+        // 矩阵的某个字符和当前比较的不相等||当前标志显示已经访问过
+        if (i < 0 || j < 0 || i >= rows || j >= cols || matrix[index] != str[k] || flag[index] == true) {
+            return false;
+        }
+        //判断是否吻合了
+        if (k == str.length - 1) {
+            return true;
+        }
+        //要走的第一个位置置为true，表示已经走过了
+        flag[index] = true;
+        //回溯
+        if (find(matrix, i -1, j, rows, cols, str, flag, k + 1) ||
+                find(matrix, i + 1, j, rows, cols, str, flag, k + 1) ||
+                find(matrix, i, j - 1, rows, cols, str, flag, k + 1) ||
+                find(matrix, i, j + 1, rows, cols, str, flag, k + 1)) {
+            return true;
+        }
+        //走到这，说明这一条路不通，还原，再试其他的路径
+        flag[index] = false;
+        return false;
+    }
+```
+---
+> 地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格，但是不能进入行坐标和列坐标的数位之和大于k的格子。 例如，当k为18时，机器人能够进入方格（35,37），因为3+5+3+7 = 18。但是，它不能进入方格（35,38），因为3+5+3+8 = 19。请问该机器人能够达到多少个格子？
+- O:
+```
+	public int movingCount(int threshold, int rows, int cols) {
+        boolean[] flag = new boolean[rows * cols];
+        int count = 0;
+        return cal(threshold, 0, 0, rows, cols, flag);
+    }
+
+    public int cal(int threshold, int i, int j, int rows, int cols, boolean[] flag) {
+        if (i < 0 || j < 0 || i >= rows || j >= cols) {
+            return 0;
+        }
+        int index = i * cols + j;
+        // 判断是否符合条件
+        if (flag[index] || !checkSum(threshold, i, j)) {
+            return 0;
+        }
+        flag[index] = true;
+        // 回溯
+        return 1 + cal(threshold, i + 1, j, rows, cols, flag) +
+                cal(threshold, i - 1, j, rows, cols, flag) +
+                cal(threshold, i, j + 1, rows, cols, flag) +
+                cal(threshold, i, j - 1, rows, cols, flag);
+    }
+
+    private boolean checkSum(int threshold, int row, int col) {
+        int sum = 0;
+        while (row != 0) {
+            sum += row % 10;
+            row = row / 10;
+        }
+        while (col != 0) {
+            sum += col % 10;
+            col = col / 10;
+        }
+        if (sum > threshold) {
+            return false;
+        }
+        return true;
+    }
+```
+---
+> 给你一根长度为n的绳子，请把绳子剪成整数长的m段（m、n都是整数，n>1并且m>1），每段绳子的长度记为k[0],k[1],...,k[m]。请问k[0]xk[1]x...xk[m]可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
+- O:
+```
+	public int cutRope(int target) {
+       int[] dp = new int[target + 1];
+        if (target == 2) {
+            return 1;
+        }
+        if (target == 3) {
+            return 2;
+        }
+        dp[0] = 1;
+        dp[2] = 2;
+        dp[3] = 3;
+        int res = 0;//记录最大的
+        for (int i = 4; i <= target; i++) {
+            for (int j = 1; j <= (i / 2); j++) {// i-j时候已经计算了另一半，所以只需要计算一半即可。
+                res = Math.max(res, dp[j] * dp[i - j]);
+            }
+            dp[i] = res;
+        }
+        return dp[target];
+    }
 ```
 ### 贪心算法总结：
 总是在对问题求解时，作出看起来是当前是最好的选择。与之相对的是动态规划。
