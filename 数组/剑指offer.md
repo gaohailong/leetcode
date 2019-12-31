@@ -213,6 +213,8 @@ n<=39
             1                                x = 1
 f(x) =   1       x = 2
            f(x - 1)  + f(x - 2)        x >= 3
+---
+### 跳台阶
 > 一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。
 - O:
 ```
@@ -252,6 +254,8 @@ public int JumpFloor(int target) {
         return count;
     }
 ```
+---
+### 变态跳台阶
 > 一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。
 - O:
 ```
@@ -272,6 +276,8 @@ public int JumpFloor(int target) {
         return count;
     }
 ```
+---
+### 矩形覆盖
 > 我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？
 - O:
 ```
@@ -288,17 +294,26 @@ public int JumpFloor(int target) {
         return RectCover(target-1)+RectCover(target-2);
     }
 ```
-> 输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。
+---
+### 二进制中1的个数
+><font color="#dd0000">输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</font> 
 - O:
 ```
-
+ 	public int NumberOf1(int n) {
+        int count = 0;
+        while(n!= 0){
+            count++;
+            n = n & (n - 1);
+         }
+        return count;
+    }
 ```
 - T:
 ```
 &按位与的运算规则是将两边的数转换为二进制位，然后运算最终值，运算规则即(两个为真才为真)1&1=1 , 1&0=0 , 0&1=0 , 0&0=0
 ```
-><font color="#dd0000">输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</font> 
-- O:
+---
+### 数值的整数次方
 
 > 给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。保证base和exponent不同时为0
 
@@ -319,6 +334,8 @@ public double Power(double base, int exponent) {
         return exponent > 0 ?  result : 1 / result;
     }
 ```
+---
+### 调整数组顺序使奇数位于偶数前面
 > 输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。
 - O:
 ```
@@ -334,6 +351,8 @@ public double Power(double base, int exponent) {
         }
     }
 ```
+---
+### 链表中倒数第k个结点
 > 输入一个链表，输出该链表中倒数第k个结点。
 - O:
 ```
@@ -353,10 +372,13 @@ public double Power(double base, int exponent) {
         return postPos < k ? null : pre;
     }
 ```
+--- 
+### 反转链表
 > 输入一个链表，反转链表后，输出新链表的表头。
 - O:
 ```
-// 思路：逐个断裂，并且转向
+ public ListNode ReverseList(ListNode head) {
+	// 思路：逐个断裂，并且转向
         if (head == null) {
             return null;
         }
@@ -371,34 +393,39 @@ public double Power(double base, int exponent) {
             head = next;// head 也后移
         }
         return pre;
+   }
 ```
+--- 
+### 合并两个排序的链表
 > 输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。
 - O:
 ```
-
-        ListNode head=new ListNode(-1);
-        head.next=null;
-        ListNode root=head;
+public ListNode Merge(ListNode list1,ListNode list2) {
+        ListNode node = new ListNode(-1);
+        node.next=null;
+        ListNode root = node;
         while(list1!=null&&list2!=null){
-            if(list1.val<list2.val){
-                head.next=list1;
-                head=list1;
-                list1=list1.next;
+            if(list1.val>list2.val){
+                node.next = list2;
+                node=list2;
+                list2 = list2.next;
             }else{
-                head.next=list2;
-                head=list2;
-                list2=list2.next;
+                node.next = list1;
+                node=list1;
+                list1 = list1.next;
             }
         }
-        //把未结束的链表连接到合并后的链表尾部
         if(list1!=null){
-            head.next=list1;
+            node.next = list1;
         }
         if(list2!=null){
-            head.next=list2;
+            node.next = list2;
         }
         return root.next;
+    }
 ```
+---
+### 树的子结构
 > 输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）
 - O:
 ```
@@ -424,6 +451,8 @@ public double Power(double base, int exponent) {
     }
 
 ```
+--- 
+### 二叉树的镜像
 > 操作给定的二叉树，将其变换为源二叉树的镜像。
 ```
 二叉树的镜像定义：源二叉树 
@@ -475,6 +504,8 @@ public double Power(double base, int exponent) {
         }
     }
 ```
+---
+### 顺时针打印矩阵
 > 输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.
 
 - O:
@@ -523,6 +554,8 @@ public double Power(double base, int exponent) {
         return list;
     }
 ```
+---
+### 包含min函数的栈
 > 定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。
 - O:
 ```
@@ -553,25 +586,30 @@ public double Power(double base, int exponent) {
         return min;
     }
 ```
+---
+### 栈的压入、弹出序列
 > 输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）
 - O: 
 ```
-public boolean IsPopOrder(int[] pushA, int[] popA) {
-        if (pushA.length == 0 || popA.length == 0) {
-            return false;
-        }
-        Stack<Integer> stack = new Stack<Integer>();
-        int popIndex = 0;
-        for (int i = 0; i < pushA.length; i++) {
-            stack.push(pushA[i]);
-            while (!stack.empty() && stack.peek() == popA[popIndex]) {
-                stack.pop();
-                popIndex++;
-            }
-        }
+	public boolean IsPopOrder(int [] pushA,int [] popA) {
+      if(pushA.length == 0||popA.length == 0){
+          return false;
+      }
+      Stack<Integer> stack = new Stack<Integer>();
+        int index= 0;
+      for(int i = 0;i<pushA.length;i++){
+          stack.push(pushA[i]);
+          // 添加的时候判断是否存在与当前出栈顺序相等的，如果最后为空，肯定是正确的
+          while(!stack.empty()&&stack.peek()==popA[index]){
+              stack.pop();
+              index++;
+          }
+      }
         return stack.empty();
     }
 ```
+---
+### 从上往下打印二叉树
 > 从上往下打印出二叉树的每个节点，同层节点从左至右打印。
 - O:
 ```
@@ -596,6 +634,8 @@ public ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
         return arrayList;
     }
 ```
+---
+### <font color="red">二叉搜索树的后序遍历序列</font>
 > 输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
 - O:
 ```
@@ -628,6 +668,8 @@ public ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
         return isBst(sequence, start, j - 1) && isBst(sequence, j, end - 1);
     }
 ```
+--- 
+### <font color="red">二叉树中和为某一值的路径</font>
 > 输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)
 
 - O:
@@ -648,7 +690,8 @@ public ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
     }
 
 ```
-
+---
+### <font color="red">复杂链表的复制</font>
 > 输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）
 - O:
 ```
@@ -684,6 +727,8 @@ public ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
         return pCloneHead;
     }
 ```
+---
+### 二叉搜索树与双向链表
 > 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。
 - O:
 ```
